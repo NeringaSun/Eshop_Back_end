@@ -3,8 +3,7 @@ const cors = require('cors');
 const { MongoClient, ObjectId } = require('mongodb');
 require('dotenv').config();
 
-const URI = `mongodb+srv://dbAdmin:${process.env.MONGODBPW}@clusterdemo.e4wnm.mongodb.net/E-shop?retryWrites=true&w=majority`;
-const client = new MongoClient(URI);
+const client = new MongoClient(process.env.URI);
 const app = express();
 app.use(express.json());
 app.use(cors());
@@ -29,7 +28,6 @@ app.get('/products/:id', async (req, res) => {
       .find(ObjectId(req.params.id))
       .toArray();
     await con.close();
-
     return res.send(data);
   } catch (err) {
     return res.status(500).send({ err });
